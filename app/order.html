@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>New order</title>
+	<link rel="stylesheet" type="text/css" href="">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+	<div class="aligner">
+		<div class="fields">
+			<h2>Add New Order</h2>
+			<div class="aligner-item">
+				<input type="text" class="input-field" placeholder="name">
+				<input type="text" class="weight-field" placeholder="weight">
+				<input type="text" class="cost-field" placeholder="cost">
+				<input type="text" class="counter-field" value="1" placeholder="qty">
+				<button class="btn remover btn-danger glyphicon glyphicon-remove"></button>
+			</div>
+			<button id="add-more" class="btn btn-primary">Add more</button>
+			<div class="aligner-item">
+				<button id="submit" class="btn btn-success order-btn">Submit</button>
+				<button id="cancel" class="btn btn-danger order-btn">Cancel</button>
+			</div>
+		</div>
+	</div>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+    <script src="scripts/new_order.js"></script>
+    <script src="scripts/lib/orderManager.js"></script>
+</body>
+</html>

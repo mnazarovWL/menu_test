@@ -1,0 +1,48 @@
+$icon-font-path: '../fonts/';
+
+// bower:scss
+@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+// endbower
+/* Space out content a bit */
+@mixin float-to($position) {
+    float:$position;
+}
+.pointer {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.aligner {
+  display: flex;
+  align-items: center;
+  min-height: 30em;
+  justify-content: center;
+}
+
+
+.aligner-item {
+  justify-content:space-between;
+  display: flex;
+  height: 40px;
+  width: 430px;
+  margin-top: 10px;
+}
+.input-field {
+  width:200px;
+}
+input {
+  width: 60px;
+}
+#add-more {
+  margin-top: 5px;
+  box-sizing:border-box;
+  width: 100%;
+}
+.fields {
+  display: flex;
+  align-items:center;
+  flex-direction:column;
+}
+
+#submit { @include float-to(left); }
+#cancel { @include float-to(right); }

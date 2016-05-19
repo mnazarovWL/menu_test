@@ -1,0 +1,16 @@
+$icon-font-path: '../fonts/';
+@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+}
+  .header {
+    padding-left: 0;
+    padding-right: 0;
+    border-bottom: 1px solid #e5e5e5;
+    margin-top: 50px;
+  }
+.methods {
+	margin-top: 50px;
+}
