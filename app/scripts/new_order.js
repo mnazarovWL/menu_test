@@ -1,4 +1,5 @@
 var main = function () {
+	'use strict';
 	orderManager.init();
 	$('#cancel').on('click', cancelHandle);
 	$('#submit').on('click', validateAndCalculate);
@@ -10,7 +11,7 @@ $(document).ready(main);
 function cancelHandle() {
 	var res = confirm('Are you sure, you want to exit?');
 	if (res) {
-		window.location.href = "http://localhost:9000";
+		window.location.href = 'http://localhost:9000';
 	}
 }
 
@@ -24,7 +25,7 @@ function removeItem(ev) {
 
 function addNewOrder(newOrder) {
 	orderManager.add(newOrder);
-	window.location.href = "http://localhost:9000";
+	window.location.href = 'http://localhost:9000';
 }
 
 function validateAndCalculate() {
@@ -45,7 +46,7 @@ function validateAndCalculate() {
 			return;
 		}
 		if (isNaN(costArr[i].value) || isNaN(counterArr[i].value) || isNaN(weightArr[i].value)) {
-			alert("Some of the data are invalid");
+			alert('Some of the data are invalid');
 			return;
 		}
 		total = +costArr[i].value * (+counterArr[i].value);
@@ -63,6 +64,6 @@ function validateAndCalculate() {
 }
 
 function addMoreHandle() {
-	var new_element = $('<div class="aligner-item"><input type="text" class="input-field" placeholder="name"><input type="text" class="weight-field" placeholder="weight"><input type="text" class="cost-field" placeholder="cost"><input type="text" class="counter-field" value="1" placeholder="qty"><button class="btn remover btn-danger glyphicon glyphicon-remove"></button></div>');
-	new_element.insertBefore('#add-more');
+	var newElem = $('<div class="aligner-item"><input type="text" class="input-field" placeholder="name"><input type="text" class="weight-field" placeholder="weight"><input type="text" class="cost-field" placeholder="cost"><input type="text" class="counter-field" value="1" placeholder="qty"><button class="btn remover btn-danger glyphicon glyphicon-remove"></button></div>');
+	newElem.insertBefore('#add-more');
 }

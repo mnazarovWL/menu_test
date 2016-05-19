@@ -7,8 +7,7 @@ globals:
   moment: true
   _: true
   $: true
-  md5: true
-  ServiceManager: true
+  orderManager: true
 extends:
   "eslint:recommended"
 rules:

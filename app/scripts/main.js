@@ -8,53 +8,64 @@ var main = function () {
 function createTableElements(data) {
 
 	//creating a tables for orders
-	var elements_array = [];
+	var elementsArray = [];
 	for (var i = 0; i < data.length; i++) {
 		var dateTime = filterDate(new Date(data[i].orderTime));
-		var data_element = '<div class="col-md-8">';
-		data_element += '<table class="table table-condensed table-striped">';
-		data_element += '<tr><td>Time of order</td><td></td><td></td><td></td><td>' + dateTime + '</td></tr>';
+		var dataElement = '<div class="col-md-8">';
+		dataElement += '<table class="table table-condensed table-striped">';
+		dataElement += '<tr><td>Time of order</td><td></td><td></td><td></td><td>' + dateTime + '</td></tr>';
 		for (var j = 0; j < data[i].positions.length; j++) {
-			data_element += '<tr>';
+			dataElement += '<tr>';
 			if (j === 0) {
-				data_element += '<td>Order</td>';
-				data_element += '<td>Weight</td>';
-				data_element += '<td>Qty</td>';
-				data_element += '<td>Cost</td>';
-				data_element += '<td>Total Cost</td></tr><tr>';
+				dataElement += '<td>Order</td>';
+				dataElement += '<td>Weight</td>';
+				dataElement += '<td>Qty</td>';
+				dataElement += '<td>Cost</td>';
+				dataElement += '<td>Total Cost</td></tr><tr>';
 			}
-			data_element += '<td>' + data[i].positions[j].name + '</td>';
-			data_element += '<td>' + data[i].positions[j].weight + 'g</td>';
-			data_element += '<td>' + data[i].positions[j].quantity + '</td>';
-			data_element += '<td>' + data[i].positions[j].posCost + ' Ru</td>';
-			data_element += '<td>' + data[i].positions[j].orderCost + ' Ru</td>';
-			data_element += '<td><a class="pointer glyphicon glyphicon-remove" data-objectcounter="' + i + '" data-positioncounter="' + j + '"></a></td>';
-			data_element += '</tr>';
+			dataElement += '<td>' + data[i].positions[j].name + '</td>';
+			dataElement += '<td>' + data[i].positions[j].weight + 'g</td>';
+			dataElement += '<td>' + data[i].positions[j].quantity + '</td>';
+			dataElement += '<td>' + data[i].positions[j].posCost + ' Ru</td>';
+			dataElement += '<td>' + data[i].positions[j].orderCost + ' Ru</td>';
+			dataElement += '<td><a class="pointer glyphicon glyphicon-remove" data-objectcounter="' + i + '"></a></td>';
+			dataElement += '</tr>';
 		}
-		data_element += '<tr>';
-		data_element += '<td><strong>Summary</strong></td><td></td><td></td><td></td><td><strong class="summary">' + data[i].totalCost + ' Ru</strong></td>';
-		data_element += '</tr>';
-		data_element += '</table>';
-		data_element += '</div>';
-		elements_array.push(data_element);
+		dataElement += '<tr>';
+		dataElement += '<td><strong>Summary</strong></td><td></td><td></td><td></td><td><strong class="summary">' + data[i].totalCost + ' Ru</strong></td>';
+		dataElement += '</tr>';
+		dataElement += '</table>';
+		dataElement += '</div>';
+		elementsArray.push(dataElement);
 	}
-	insertOrders(elements_array, data);
+	insertOrders(elementsArray);
 }
 
 function removeItem(ev) {
 
 	//Delegating an event from remove mark to a panel, delegating is cool
-	//dataset is the pointer to a object and position
-	var dataset = ev.currentTarget.dataset;
-	if (!dataset.positioncounter) {
-		dataset.positioncounte = null;
+	//dataset is the pointer to a object and position for removing without reloading
+	//pointers and index need to maintain removing from storage, beside the actual index
+
+	var objectPointer = $(ev.target).parents('.panel-collapse');
+	var objectIndex = Math.floor(objectPointer.index() / 2);
+	var positionPointer = null;
+	var positionIndex = null;
+	if (objectIndex === -1) {
+		objectPointer = $(ev.target).parents('.panel-heading');
+		objectIndex = Math.floor(objectPointer.index() / 2);
+	} else {
+		positionPointer = $(ev.target).parents('tr');
+		positionIndex = positionPointer.index() - 2;
 	}
-	orderManager.removeAndRecalculate(dataset.objectcounter, dataset.positioncounter, function (params) {
+	var dataset = ev.currentTarget.dataset;
+	orderManager.removeAndRecalculate(objectIndex, positionIndex, function (params) {
 		if (params.totalSum) {
 
 			//getting a row removed
 			var row = $(ev.currentTarget.parentNode.parentNode);
-			var summary_elem = $('#collapse' + dataset.objectcounter + ' td:last-child > strong');
+			var summaryElem = $('#collapse' + dataset.objectcounter + ' td:last-child > strong');
+			summaryElem.html(params.totalSum + ' Ru');
 			row.hide('slow', function () {
 				row.remove();
 			});
@@ -73,7 +84,7 @@ function removeItem(ev) {
 	});
 }
 
-function insertOrders(array, data) {
+function insertOrders(array) {
 	var allElements = [];
 
 	//using the array of tables passed in, we wrap this into a panel view and insert to our page.
@@ -122,5 +133,5 @@ function filterDate(date) {
 $(document).ready(main);
 
 function addNewOrder() {
-	window.location.href = "http://localhost:9000/order.html";
+	window.location.href = 'http://localhost:9000/order.html';
 }

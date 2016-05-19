@@ -81,7 +81,7 @@ var orderManager = (function () {
 		}]
 	}];
 
-	function calculate(singleOrder, cb) {
+	function calculate(singleOrder) {
 
 		//in case of removing one dish, recalculating a summary cost
 		var summary = 0;
@@ -89,15 +89,11 @@ var orderManager = (function () {
 			summary += +singleOrder.positions[i].posCost * (+singleOrder.positions[i].quantity);
 		}
 		singleOrder.totalCost = summary;
-		if (cb) {
-			cb({
-				totalSum: summary
-			});
-		}
+		return summary;
 
 	}
 
-	module.init = function (data) {
+	module.init = function () {
 
 		//check if orders already exist in storage and if not, filling it with default
 		if (storage.orders) {
@@ -109,12 +105,14 @@ var orderManager = (function () {
 			orders = JSON.parse(orders);
 		}
 	};
-	module.set = function (cb) {
+	module.set = function (cb, summary) {
 		storage.setItem('orders', JSON.stringify(orders));
 		orders = storage.getItem('orders');
 		orders = JSON.parse(orders);
 		if (cb) {
-			cb({});
+			cb(summary ? {
+				totalSum: summary
+			} : {});
 		}
 	};
 	module.get = function (index) {
@@ -131,10 +129,10 @@ var orderManager = (function () {
 	module.removeAndRecalculate = function (order, dish, cb) {
 
 		//removing or a dish or a panel
-		if (dish && orders[order].positions.length > 1) {
+		if (dish !== null && orders[order].positions.length > 1) {
 			orders[order].positions.splice(dish, 1);
-			calculate(orders[order], cb);
-			this.set();
+			var summary = calculate(orders[order]);
+			this.set(cb, summary);
 		} else {
 			orders.splice(order, 1);
 			this.set(cb);
