@@ -1,16 +1,25 @@
-var main = function () {
-	orderManager.init();
-	createTableElements(orderManager.get());
-	$('#accordion').on('click', '.pointer', removeItem);
-	$('#addNew').on('click', addNewOrder);
+var App = {
+	orderList: {}
 };
 
-function createTableElements(data) {
+App.orderList.main = function () {
+	App.orderManager.init();
+	App.orderList.createTableElements(App.orderManager.get());
+	$('#accordion').on('click', '.pointer', App.orderList.removeItem);
+	$('#addNew').on('click', App.orderList.addNewOrder);
+};
+
+App.orderList.addNewOrder = function () {
+	window.location.href = 'http://localhost:9000/order.html';
+}
+
+
+App.orderList.createTableElements = function (data) {
 
 	//creating a tables for orders
 	var elementsArray = [];
 	for (var i = 0; i < data.length; i++) {
-		var dateTime = filterDate(new Date(data[i].orderTime));
+		var dateTime = App.orderList.filterDate(new Date(data[i].orderTime));
 		var dataElement = '<div class="col-md-8">';
 		dataElement += '<table class="table table-condensed table-striped">';
 		dataElement += '<tr><td>Time of order</td><td></td><td></td><td></td><td>' + dateTime + '</td></tr>';
@@ -38,10 +47,10 @@ function createTableElements(data) {
 		dataElement += '</div>';
 		elementsArray.push(dataElement);
 	}
-	insertOrders(elementsArray);
+	App.orderList.insertOrders(elementsArray);
 }
 
-function removeItem(ev) {
+App.orderList.removeItem = function (ev) {
 
 	//Delegating an event from remove mark to a panel, delegating is cool
 	//dataset is the pointer to a object and position for removing without reloading
@@ -59,7 +68,7 @@ function removeItem(ev) {
 		positionIndex = positionPointer.index() - 2;
 	}
 	var dataset = ev.currentTarget.dataset;
-	orderManager.removeAndRecalculate(objectIndex, positionIndex, function (params) {
+	App.orderManager.removeAndRecalculate(objectIndex, positionIndex, function (params) {
 		if (params.totalSum) {
 
 			//getting a row removed
@@ -84,7 +93,7 @@ function removeItem(ev) {
 	});
 }
 
-function insertOrders(array) {
+App.orderList.insertOrders = function (array) {
 	var allElements = [];
 
 	//using the array of tables passed in, we wrap this into a panel view and insert to our page.
@@ -99,7 +108,7 @@ function insertOrders(array) {
 	}
 }
 
-function filterDate(date) {
+App.orderList.filterDate = function (date) {
 
 	//there are plenty of date filtering libs, bus we don't actually need them for a simple change, this would appear to a user in a familiar format
 	var month = [];
@@ -130,8 +139,4 @@ function filterDate(date) {
 }
 
 
-$(document).ready(main);
-
-function addNewOrder() {
-	window.location.href = 'http://localhost:9000/order.html';
-}
+$(document).ready(App.orderList.main);

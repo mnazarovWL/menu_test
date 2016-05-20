@@ -1,21 +1,23 @@
-var main = function () {
-	'use strict';
-	orderManager.init();
-	$('#cancel').on('click', cancelHandle);
-	$('#submit').on('click', validateAndCalculate);
-	$('#add-more').on('click', addMoreHandle);
-	$('.fields').on('click', '.remover', removeItem);
+var App = {
+	orderItem: {}
 };
-$(document).ready(main);
+App.orderItem.main = function () {
+	'use strict';
+	App.orderManager.init();
+	$('#cancel').on('click', App.orderItem.cancelHandle);
+	$('#submit').on('click', App.orderItem.validateAndCalculate);
+	$('#add-more').on('click', App.orderItem.addMoreHandle);
+	$('.fields').on('click', '.remover', App.orderItem.removeItem);
+};
 
-function cancelHandle() {
+App.orderItem.cancelHandle = function () {
 	var res = confirm('Are you sure, you want to exit?');
 	if (res) {
 		window.location.href = 'http://localhost:9000';
 	}
 }
 
-function removeItem(ev) {
+App.orderItem.removeItem = function (ev) {
 	var target = $(ev.currentTarget.parentNode);
 	target.hide('slow', function () {
 		target.remove();
@@ -23,13 +25,17 @@ function removeItem(ev) {
 }
 
 
-function addNewOrder(newOrder) {
-	orderManager.add(newOrder);
+App.orderItem.addNewOrder = function (newOrder) {
+	App.orderManager.add(newOrder);
 	window.location.href = 'http://localhost:9000';
 }
 
-function validateAndCalculate() {
+App.orderItem.validateAndCalculate = function () {
 	var inputArr = $('input.input-field');
+	if (inputArr.length === 0) {
+		alert('There is no any orders');
+		return;
+	}
 	var counterArr = $('input.counter-field');
 	var costArr = $('input.cost-field');
 	var weightArr = $('input.weight-field');
@@ -60,10 +66,11 @@ function validateAndCalculate() {
 		summary += total;
 	}
 	object.totalCost = summary;
-	addNewOrder(object);
+	App.orderItem.addNewOrder(object);
 }
 
-function addMoreHandle() {
+App.orderItem.addMoreHandle = function () {
 	var newElem = $('<div class="aligner-item"><input type="text" class="input-field" placeholder="name"><input type="text" class="weight-field" placeholder="weight"><input type="text" class="cost-field" placeholder="cost"><input type="text" class="counter-field" value="1" placeholder="qty"><button class="btn remover btn-danger glyphicon glyphicon-remove"></button></div>');
 	newElem.insertBefore('#add-more');
 }
+$(document).ready(App.orderItem.main);

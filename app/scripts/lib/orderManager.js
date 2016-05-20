@@ -1,4 +1,4 @@
-var orderManager = (function () {
+App.orderManager = (function () {
 	'use strict';
 	var module = {};
 	var storage = window.sessionStorage;
