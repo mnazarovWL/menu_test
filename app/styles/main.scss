@@ -43,6 +43,14 @@ input {
   align-items:center;
   flex-direction:column;
 }
+#localBtn {
+  display: inline-block;
+  margin: 25px;
+  @include float-to(right)
+}
+.row h1 {
+  display: inline-block;
+}
 
 #submit { @include float-to(left); }
 #cancel { @include float-to(right); }

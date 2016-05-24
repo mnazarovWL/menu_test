@@ -7,7 +7,7 @@ globals:
   moment: true
   _: true
   $: true
-  orderManager: true
+  App: true
 extends:
   "eslint:recommended"
 rules:
