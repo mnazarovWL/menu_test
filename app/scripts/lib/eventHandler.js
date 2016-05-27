@@ -7,6 +7,13 @@ App.eventHandler = (function () {
 			} else {
 				$(evObject).on(event, delegator, cb);
 			}
+		},
+		unbindEvent: function (event, evObject, delegator, cb) {
+			if (!delegator || delegator === null) {
+				$(evObject).off(event, cb);
+			} else {
+				$(evObject).off(event, delegator, cb);
+			}
 		}
 	};
 })();

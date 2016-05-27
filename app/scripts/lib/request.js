@@ -7,9 +7,9 @@ App.request = (function () {
 				url: url
 			}).done(function (data) {
 				if (cb) {
-					cb(data.orders);
+					cb(data);
 				} else {
-					return data.orders;
+					return data;
 				}
 			});
 		}

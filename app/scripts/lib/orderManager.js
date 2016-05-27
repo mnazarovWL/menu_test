@@ -21,6 +21,8 @@ App.orderManager = (function () {
 		orders = newOrders;
 	};
 	module.get = function (index) {
+		// console.log("WHERE IS ORDERS?");
+		// console.log(orders);
 		if (index) {
 			return orders[index];
 		} else {

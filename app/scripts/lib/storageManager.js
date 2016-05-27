@@ -19,8 +19,8 @@ App.storage = (function () {
 			try {
 				storage.setItem('orders', JSON.stringify(newOrders));
 			} catch (e) {
-				console.log('error trying to setItem to storage ' + e);
-				if (e == QUOTA_EXCEEDED_ERR) {
+				console.error('error trying to setItem to storage ' + e);
+				if (e === QUOTA_EXCEEDED_ERR) {
 					alert('Превышен лимит');
 				}
 			}

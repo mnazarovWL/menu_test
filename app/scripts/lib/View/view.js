@@ -1,4 +1,4 @@
-App.view = (function (argument) {
+App.view = (function () {
 	'use strict';
 	return {
 		remove: function (target) {
@@ -47,7 +47,7 @@ App.view = (function (argument) {
 					success: true
 				};
 			} else {
-				console.log('wrong usage of validate function, called empty');
+				console.error('wrong usage of validate function, called empty');
 			}
 		},
 		validateForNaN: function () {
@@ -66,8 +66,18 @@ App.view = (function (argument) {
 					success: true
 				};
 			} else {
-				console.log('wrong usage of validate function, called empty');
+				console.error('wrong usage of validate function, called empty');
 			}
+		},
+		fadeOut: function (hidedCallback) {
+			$('#wrapper').fadeOut('fast', function () {
+				if (hidedCallback) {
+					hidedCallback();
+				}
+			});
+		},
+		fadeIn: function () {
+			$('#wrapper').fadeIn('fast');
 		}
 	};
 })();
