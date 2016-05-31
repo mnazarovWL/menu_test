@@ -8,7 +8,7 @@ App.orderItem.main = function () {
 	App.eventHandler.bindEvent('click', '#submit', null, App.orderItem.validateAndCalculate);
 	App.eventHandler.bindEvent('click', '#add-more', null, App.newOrder.createNewField);
 	App.eventHandler.bindEvent('click', '.fields', '.remover', App.orderItem.removeItem);
-	App.view.fadeIn();
+	App.view.fadeIn($('#wrapper'));
 };
 
 App.orderItem.cancelHandle = function () {
@@ -57,9 +57,11 @@ App.orderItem.changeContent = function () {
 	App.eventHandler.unbindEvent('click', '#submit', null, App.orderList.validateAndCalculate);
 	App.eventHandler.unbindEvent('click', '#add-more', null, App.newOrder.createNewField);
 	App.eventHandler.unbindEvent('click', '.fields', '.remover', App.orderItem.removeItem);
-	App.request.get('partials/main.html', function (template) {
-		App.view.fadeOut(function () {
-			App.router.changeContent(template, App.orderList.main);
+	App.request.get('partials/main.html').then(function (template) {
+		App.view.fadeOut($('#wrapper'), function () {
+			App.router.changeContent($('#wrapper'), template, App.orderList.main);
 		});
+	}, function (error) {
+		console.error(error);
 	});
 };

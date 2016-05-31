@@ -4,10 +4,12 @@ var App = {
 
 App.orderList.init = function () {
 	'use strict';
-	App.request.get('partials/main.html', function (template) {
-		App.view.fadeOut(function () {
-			App.router.changeContent(template, App.orderList.main);
+	App.request.get('partials/main.html').then(function (template) {
+		App.view.fadeOut($('#wrapper'), function () {
+			App.router.changeContent($('#wrapper'), template, App.orderList.main);
 		});
+	}, function (error) {
+		console.error(error);
 	});
 };
 
@@ -20,10 +22,12 @@ App.orderList.main = function () {
 		App.orderManager.set(App.storage.get());
 		App.orderList.draw(App.orderManager.get());
 	} else {
-		App.request.get('assets/defaultOrders.json', function (defaultOrders) {
+		App.request.get('assets/defaultOrders.json').then(function (defaultOrders) {
 			App.orderManager.set(defaultOrders.orders);
 			App.storage.set(defaultOrders.orders);
 			App.orderList.draw(defaultOrders.orders);
+		}, function (error) {
+			console.error(error);
 		});
 	}
 };
@@ -40,13 +44,13 @@ App.orderList.clearAll = function () {
 App.orderList.draw = function (data) {
 	'use strict';
 	var tableData = App.mainView.createTables(data);
-	App.mainView.insertTablesIntoPanels(tableData);
-	App.view.fadeIn();
+	App.mainView.insertTablesIntoPanels($('#accordion'), tableData);
+	App.view.fadeIn($('#wrapper'));
 };
 
 App.orderList.removeItem = function (ev) {
 	'use strict';
-	var panelObj = App.mainView.getPanelElements(ev.target);
+	var panelObj = App.mainView.getPanelElements($(ev.target));
 	App.orderManager.removeAndRecalculate(panelObj.objectIndex, panelObj.positionIndex, function (params) {
 		if (params.summary) {
 
@@ -70,9 +74,11 @@ App.orderList.changeContent = function () {
 	App.eventHandler.unbindEvent('click', '#accordion', '.pointer', App.orderList.removeItem);
 	App.eventHandler.unbindEvent('click', '#addNew', null, App.orderList.changeContent);
 	App.eventHandler.unbindEvent('click', '#localBtn', null, App.orderList.clearAll);
-	App.request.get('partials/order.html', function (template) {
-		App.view.fadeOut(function () {
-			App.router.changeContent(template, App.orderItem.main);
+	App.request.get('partials/order.html').then(function (template) {
+		App.view.fadeOut($('#wrapper'), function () {
+			App.router.changeContent($('#wrapper'), template, App.orderItem.main);
+		}, function (error) {
+			console.error(error);
 		});
 	});
 };

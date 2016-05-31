@@ -1,5 +1,6 @@
 App.mainView = (function () {
 	'use strict';
+
 	function filterDate(date) {
 		function dayNumberFilter(day) {
 
@@ -68,9 +69,9 @@ App.mainView = (function () {
 			}
 			return elementsArray;
 		},
-		insertTablesIntoPanels: function (array) {
+		insertTablesIntoPanels: function (mainPanel, array) {
 			if (array.length === 0) {
-				$('#accordion').empty();
+				mainPanel.empty();
 			}
 			var allElements = [];
 
@@ -83,7 +84,7 @@ App.mainView = (function () {
 				var newElement = $('<div class="panel-heading" role="tab" id=' + heading + '><h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion" href=#' + collapse + ' aria-expanded="false" aria-controls=' + collapse + '>Order ' + (i + 1) + ' </a><a class="pointer glyphicon glyphicon-remove" data-objectcounter="' + i + '"></a></h4></div><div id=' + collapse + ' class="panel-collapse collapse" role="tabpanel" aria-labelledby=' + heading + '><div class="panel-body">' + array[i] + '</div></div></div>');
 				allElements.push(newElement);
 			}
-			$('#accordion').html(allElements);
+			mainPanel.html(allElements);
 		},
 		getPanelElements: function (target) {
 			var _heading = null;
@@ -91,13 +92,13 @@ App.mainView = (function () {
 			var objectIndex = null;
 			var row = null;
 			var positionIndex = null;
-			if ($(target).parents('.panel-collapse').length === 0) {
-				_heading = $(target).parents('.panel-heading');
+			if (target.parents('.panel-collapse').length === 0) {
+				_heading = target.parents('.panel-heading');
 				_collapse = _heading.next();
 			} else {
-				_collapse = $(target).parents('.panel-collapse');
+				_collapse = target.parents('.panel-collapse');
 				_heading = _collapse.prev();
-				row = $(target).parents('tr');
+				row = target.parents('tr');
 				positionIndex = row.index() - 2;
 			}
 			objectIndex = Math.floor(_heading.index() / 2);

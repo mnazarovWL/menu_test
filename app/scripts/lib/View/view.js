@@ -69,15 +69,15 @@ App.view = (function () {
 				console.error('wrong usage of validate function, called empty');
 			}
 		},
-		fadeOut: function (hidedCallback) {
-			$('#wrapper').fadeOut('fast', function () {
+		fadeOut: function (wrapper, hidedCallback) {
+			wrapper.fadeOut('fast', function () {
 				if (hidedCallback) {
 					hidedCallback();
 				}
 			});
 		},
-		fadeIn: function () {
-			$('#wrapper').fadeIn('fast');
+		fadeIn: function (wrapper) {
+			wrapper.fadeIn('fast');
 		}
 	};
 })();

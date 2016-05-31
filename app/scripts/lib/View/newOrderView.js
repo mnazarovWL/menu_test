@@ -27,9 +27,10 @@ App.newOrder = (function () {
 			object.totalCost = summary;
 			return object;
 		},
-		createNewField: function () {
+		createNewField: function (ev) {
+			var btnElem = $(ev.target);
 			var newElem = $('<div class="aligner-item"><input type="text" class="input-field" placeholder="name"><input type="text" class="weight-field" placeholder="weight"><input type="text" class="cost-field" placeholder="cost"><input type="text" class="counter-field" value="1" placeholder="qty"><button class="btn remover btn-danger glyphicon glyphicon-remove"></button></div>');
-			newElem.insertBefore('#add-more');
+			newElem.insertBefore(btnElem);
 		}
 	};
 })();

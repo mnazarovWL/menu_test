@@ -1,8 +1,8 @@
 App.router = (function () {
 	'use strict';
 	return {
-		changeContent: function (partial, cb) {
-			$('#wrapper').html(partial);
+		changeContent: function (wrapper, partial, cb) {
+			wrapper.html(partial);
 			if (cb) {
 				cb();
 			}
